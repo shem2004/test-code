@@ -1,0 +1,177 @@
+<!doctype html>
+<!--
+  Git Push HTML - Tutorial Site
+  Single-file tutorial website that walks a user through pushing an HTML site to GitHub.
+  Features: step-by-step guide, copy-to-clipboard buttons for commands, terminal preview, downloadable gist link placeholder.
+  Edit freely and save as index.html to preview locally.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Push HTML to GitHub — Simple Tutorial</title>
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#7c3aed; --glass:rgba(255,255,255,0.03);
+      --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+    *{box-sizing:border-box}
+    body{font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; background:linear-gradient(180deg,#071021 0%, #07162a 100%); color:#e6eef8; min-height:100vh; padding:32px}
+    .wrap{max-width:980px;margin:0 auto}
+    header{display:flex;gap:16px;align-items:center;margin-bottom:18px}
+    .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:20px;box-shadow:0 6px 18px rgba(12,12,24,0.6)}
+    h1{font-size:20px;margin:0}
+    p.lead{margin:6px 0 0;color:var(--muted)}
+
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:20px;margin-top:20px}
+    .card{background:var(--card); padding:18px;border-radius:12px;box-shadow:0 6px 14px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+
+    .steps{display:flex;flex-direction:column;gap:12px}
+    .step{background:var(--glass);padding:12px;border-radius:8px}
+    .step h2{margin:0 0 8px;font-size:15px}
+    .code{background:#071226;padding:10px;border-radius:8px;font-family:var(--mono);font-size:13px;color:#cfe8ff;overflow:auto}
+    pre{margin:0;white-space:pre-wrap}
+
+    button.copy{background:transparent;border:1px dashed rgba(255,255,255,0.06);color:var(--muted);padding:6px 10px;border-radius:8px;font-size:13px;cursor:pointer}
+    .controls{display:flex;gap:8px;align-items:center}
+
+    aside .card.small{padding:12px}
+    .preview{height:300px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);overflow:hidden}
+    .terminal{background:#000; color:#bcd; padding:12px;border-radius:8px;font-family:var(--mono); font-size:13px;min-height:120px}
+
+    .muted{color:var(--muted);font-size:13px}
+    a.btn{background:linear-gradient(90deg,var(--accent),#06b6d4);padding:8px 12px;border-radius:8px;color:#fff;text-decoration:none;font-weight:600}
+
+    footer{margin-top:22px;color:var(--muted);font-size:13px;text-align:center}
+
+    @media (max-width:940px){.grid{grid-template-columns:1fr;}.logo{width:56px;height:56px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">GH</div>
+      <div>
+        <h1>Push HTML to GitHub — A simple tutorial</h1>
+        <p class="lead">Step-by-step guide that shows commands, a terminal preview, and an embedded live preview area.</p>
+      </div>
+    </header>
+
+    <div class="grid">
+      <main class="card">
+        <section class="steps">
+
+          <div class="step">
+            <h2>1. Prepare your project</h2>
+            <div class="muted">Create a folder and add your HTML, CSS, and assets. Example structure:</div>
+            <div class="code" style="margin-top:8px"><pre>my-website/
+├─ index.html
+├─ style.css
+└─ images/
+</pre></div>
+          </div>
+
+          <div class="step">
+            <h2>2. Initialize Git & make your first commit</h2>
+            <div class="muted">Run these commands in your project's root folder.</div>
+            <div class="code" id="cmd-1" style="margin-top:8px"><pre>git init
+git add .
+git commit -m "Initial commit - add website files"</pre></div>
+            <div style="margin-top:8px" class="controls"><button class="copy" data-target="cmd-1">Copy commands</button>
+            <div style="flex:1"></div></div>
+          </div>
+
+          <div class="step">
+            <h2>3. Create a remote repository on GitHub</h2>
+            <div class="muted">Go to GitHub & create a new repo (public or private). Copy the repository URL.</div>
+            <div class="code" id="cmd-2" style="margin-top:8px"><pre># example remote URL — replace with your repo
+git remote add origin https://github.com/yourusername/your-repo-name.git</pre></div>
+            <div style="margin-top:8px" class="controls"><button class="copy" data-target="cmd-2">Copy remote command</button>
+            <button class="copy" id="change-branch">Use "main" branch</button></div>
+          </div>
+
+          <div class="step">
+            <h2>4. Push your files to GitHub</h2>
+            <div class="muted">Push to the default branch (main). If your repo uses <code>master</code> replace accordingly.</div>
+            <div class="code" id="cmd-3" style="margin-top:8px"><pre>git branch -M main
+git push -u origin main</pre></div>
+            <div style="margin-top:8px" class="controls"><button class="copy" data-target="cmd-3">Copy push commands</button>
+            <a class="btn" href="#preview" id="open-preview">Open live preview</a></div>
+          </div>
+
+          <div class="step">
+            <h2>5. (Optional) Host with GitHub Pages</h2>
+            <div class="muted">To publish your site with GitHub Pages from the <code>main</code> branch:</div>
+            <div class="code" id="cmd-4" style="margin-top:8px"><pre># In repository settings: GitHub Pages -> Source -> branch: main / root
+# Or use gh CLI:
+gh repo edit --enable-pages
+</pre></div>
+            <div style="margin-top:8px" class="controls"><button class="copy" data-target="cmd-4">Copy instruction</button></div>
+          </div>
+
+        </section>
+      </main>
+
+      <aside>
+        <div class="card small">
+          <h3 style="margin:0 0 8px">Terminal preview</h3>
+          <div class="terminal" id="terminal">$ git init
+Initialized empty Git repository in /path/to/my-website/.git/
+$ git add .
+$ git commit -m "Initial commit - add website files"
+[main (root-commit) abc1234] Initial commit - add website files
+ 2 files changed, 12 insertions(+)
+ create mode 100644 index.html
+$ git remote add origin https://github.com/yourusername/your-repo-name.git
+$ git branch -M main
+$ git push -u origin main
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Writing objects: 100% (5/5), 1.23 KiB | 1.23 MiB/s, done.
+Total 5 (delta 0), reused 0 (delta 0)
+To https://github.com/yourusername/your-repo-name.git
+ * [new branch]      main -> main
+</div>
+        </div>
+
+        <div class="card small" style="margin-top:12px">
+          <h3 style="margin:0 0 8px">Live preview</h3>
+          <div id="preview" class="preview"><iframe id="preview-frame" style="width:100%;height:100%;border:0" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset='utf-8'&gt;&lt;meta name='viewport' content='width=device-width,initial-scale=1'&gt;&lt;title&gt;Preview&lt;/title&gt;&lt;style&gt;body{font-family:Arial,Helvetica,sans-serif;padding:20px;color:#0b1220}h1{color:#0b59ff}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;h1&gt;Hello from your index.html&lt;/h1&gt;&lt;p&gt;This is a live preview built into the tutorial page. Replace this with your site.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"></iframe></div>
+        </div>
+
+        <div class="card small" style="margin-top:12px">
+          <h3 style="margin:0 0 8px">Tips</h3>
+          <ul class="muted" style="padding-left:18px;margin:0">
+            <li>Use <code>.gitignore</code> for node_modules or build files.</li>
+            <li>If using SSH, use the SSH remote URL instead of HTTPS.</li>
+            <li>Enable GitHub Pages in repo settings to publish to the web.</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+    <footer class="muted">Save this file as <strong>index.html</strong> in your project and open it locally to use the interactive copy buttons.</footer>
+
+  </div>
+
+  <script>
+    // Copy-to-clipboard for code blocks
+    document.querySelectorAll('button.copy').forEach(btn=>{
+      btn.addEventListener('click', async ()=>{
+        const id = btn.dataset.target;
+        if(id){
+          const txt = document.getElementById(id).innerText;
+          try{ await navigator.clipboard.writeText(txt); btn.innerText='Copied ✓'; setTimeout(()=>btn.innerText='Copy commands',1500);}catch(e){alert('Clipboard failed — select and copy manually.')}
+        } else if(btn.id==='change-branch'){
+          try{ await navigator.clipboard.writeText('git branch -M main'); btn.innerText='Copied ✓'; setTimeout(()=>btn.innerText='Use "main" branch',1500);}catch(e){alert('Clipboard failed — please copy manually.')}
+        }
+      })
+    })
+
+    // Optional: change preview content if user drags a local file (basic)
+    const previewFrame = document.getElementById('preview-frame');
+    document.getElementById('open-preview').addEventListener('click', (e)=>{ e.preventDefault(); previewFrame.scrollIntoView({behavior:'smooth'}); });
+
+  </script>
+</body>
+</html>
